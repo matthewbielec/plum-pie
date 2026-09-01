@@ -1,0 +1,23 @@
+#!/bin/sh
+
+status=0
+
+if ! cargo fmt --all -- --check >/dev/null 2>&1; then
+    cargo fmt --all
+    echo
+    echo "pre-commit: code was reformated, please review it."
+    status=1
+fi
+
+if ! cargo clippy --all-targets --all-features -- -D warnings; then
+    echo
+    echo "pre-commit: clippy found issues, please review them."
+    status=1
+fi
+
+if [ "$status" -ne 0 ]; then
+    echo
+    echo "pre-commit: commit aborted. Address the item(s) above, then commit again."
+fi
+
+exit "$status"
