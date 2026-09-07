@@ -1,3 +1,9 @@
+use crate::board::Board;
+
+mod board;
+mod piece;
+
 fn main() {
-    println!("Hello, world!");
+    let board = Board::start();
+    println!("{}", board);
 }
